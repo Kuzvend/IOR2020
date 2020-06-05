@@ -16,7 +16,7 @@ class ColorDetecting():                                                         
         self.image_pub_yellow = rospy.Publisher("Yellow",Image,queue_size=10)
         self.image_pub = rospy.Publisher("Final",Image,queue_size=10)                                                # И топика для вывода финального изображения
 
-        self.red_low = np.array([170,70,50])                                                                         # Параметры необходимые для определения облак точек каждого цвета:
+        self.red_low = np.array([170,70,50])                                                                         # Параметры необходимые для определения облака точек каждого цвета:
         self.red_high = np.array([180, 255, 255])                                                                    # Красного
 
         self._red_low = np.array([0,70,50])                                                                          # Доп фильтр для красного цвета 
@@ -28,7 +28,7 @@ class ColorDetecting():                                                         
         self.yellow_low = np.array([19,69,157])                                                                      # И желтого
         self.yellow_high = np.array([51,255,229])
 
-        self.bridge = CvBridge()                                                                                     # Переменная необходимая для конвертация изображения из типа msg в обычный вид и обратно
+        self.bridge = CvBridge()                                                                                     # Переменная необходимая для конвертации изображения из типа msg в обычный вид и обратно
         self.image_sub = rospy.Subscriber("main_camera/image_raw",Image,self.callback)                               # Подписание на топик с изображением
 
     def callback(self,data):                                                                                         # Основная функция (data- изображения из типа msg)
@@ -40,7 +40,7 @@ class ColorDetecting():                                                         
         imgGrey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)                                                              # Наложения серого фильтра на изображение
         Grey = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
-        mask1 = cv2.inRange(Grey, self.red_low, self.red_high)                                                       # Создание облак точек для каждого цвета
+        mask1 = cv2.inRange(Grey, self.red_low, self.red_high)                                                       # Создание облака точек для каждого цвета
         mask3 = cv2.inRange(Grey, self.yellow_low, self.yellow_high)
         mask2 = cv2.inRange(Grey, self.blue_low, self.blue_high)
         mask4 = cv2.inRange(Grey, self._red_low, self._red_high)
@@ -122,7 +122,7 @@ class ColorDetecting():                                                         
 def main(args):                                                                                                      # Начальная функция
   col_det = ColorDetecting()                                                                                         # Обращение к классу Color_detect
   try:
-    rospy.spin()                                                                                                     # Обезательная функция для работы с топиками
+    rospy.spin()                                                                                                     # Обязательная функция для работы с топиками
   except KeyboardInterrupt:
     print("Shutting down")
 
